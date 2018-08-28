@@ -37,9 +37,7 @@ for t in range(0,steps):
     y = (R - r) * sin(angle) - d * sin(((R-r)/r)*angle)
 
     m.goto(x,y)
-
-print(R);
-print(r);
+    
 
 turtle.done()
 
