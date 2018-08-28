@@ -9,12 +9,15 @@ import random
 
 window = turtle.Screen()
 window.bgcolor("#FFFFFF")
+turtle.setup(1000,1000)
 
 m = turtle.Turtle()
 
+m.speed(0)
+
 R = random.randint(30,90)
 print(R);
-r = random.randint(0,360)
+r = random.randint(1,360)
 print(r);
 d = 80
 
@@ -33,11 +36,15 @@ for t in range(0,steps):
 
     angle += theta
 
+    R = random.randint(30,90)
+    r = random.randint(1,360)
+    d = random.randint(1,120)
+
     x = (R - r) * cos(angle) - d * cos(((R-r)/r)*angle)
     y = (R - r) * sin(angle) - d * sin(((R-r)/r)*angle)
 
     m.goto(x,y)
-    
+
 
 turtle.done()
 
