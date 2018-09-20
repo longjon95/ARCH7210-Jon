@@ -9,7 +9,6 @@ import random as rd
 class Turtle:
     def __init__(self, pos = [0,0,0], heading = [1,0,0]):
         self.point = rs.AddPoint(pos)
-        print "my Point is " + str(self.point)
         pointPos = rs.PointCoordinates(self.point)
         self.direction = rs.VectorCreate(heading,pointPos)
         self.lines = []
@@ -20,7 +19,8 @@ class Turtle:
         prevPos = rs.PointCoordinates(self.point)
         rs.MoveObject(self.point,movement)
         currentPos = rs.PointCoordinates(self.point)
-        rs.AddLine(prevPos,currentPos)
+        forwardLine = rs.AddLine(prevPos,currentPos)
+        rs.DeleteObject(forwardLine)
         
     def left(self,angle):
         self.direction = rs.VectorRotate(self.direction, angle, [0,0,1])
@@ -35,7 +35,8 @@ class Turtle:
         movement = rs.VectorCreate([x,y,0],prevPos)
         rs.MoveObject(self.point,movement)
         currentPos = rs.PointCoordinates(self.point)
-        rs.AddLine(prevPos,currentPos)
+        gotoLine = rs.AddLine(prevPos,currentPos)
+        rs.DeleteObject(gotoLine)
     
     
     def jitter(self, x , y, step):
@@ -55,14 +56,16 @@ class Turtle:
         for i in range(step):
             xJitter = initialPosition[0] + rd.uniform(0,x)
             yJitter = initialPosition[1] + rd.uniform(0 , y)
-            rs.AddPoint([xJitter, yJitter, 0])
+            pt = rs.AddPoint([xJitter, yJitter, 0])
             points.append([xJitter, yJitter, 0])
+            rs.DeleteObjects(pt)
         rs.AddCurve(points)
-
 
 start = rs.GetPoint("Select initial position")
 steps = input("Determine number of steps")
 
 obj01 = Turtle(start)
-obj01 = obj01.jitter(20, 10, steps)
-#obj01 = obj01.curveJitter(20, 10, steps)
+#obj01 = obj01.jitter(20, 10, steps)
+for i in range(10):
+    obj01.goto((rd.uniform(0 , 100)),(rd.uniform(0 , 100)))
+    obj01.curveJitter(20, 10, steps)
